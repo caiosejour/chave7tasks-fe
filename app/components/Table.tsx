@@ -7,13 +7,14 @@ interface tableProps{
 
   setOpenTask: Function
   setTaskId: Function
+  refreshTalbe: Boolean
 
 }
 
 export default function TasksTable(props: tableProps){
 
   const [tasks, setTasks] = useState([]);
-
+  
   function triggerModal(taskId: String){
 
     props.setOpenTask(true)
@@ -67,7 +68,7 @@ export default function TasksTable(props: tableProps){
 
     })
 
-  }, []);
+  }, [props.refreshTalbe]);
   
   return (
 

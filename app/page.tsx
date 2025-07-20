@@ -16,6 +16,8 @@ export default function Home(){
 
   const [open, setOpen] = useState(false)
   const [openTask, setOpenTask] = useState(false)
+  const [refreshTalbe, setRefreshTable] = useState(false)
+
   const [taskId, setTaskId] = useState('')
   
   return(
@@ -64,9 +66,9 @@ export default function Home(){
         {/* Add Task Button */}
 
         {/* Tasks */}
-        <section className="mt-10">
+        <section className="mt-4">
 
-            <Table setOpenTask={setOpenTask} setTaskId={setTaskId}/>
+            <Table setOpenTask={setOpenTask} setTaskId={setTaskId} refreshTalbe={refreshTalbe}/>
             
         </section>
         {/* Tasks */}
@@ -111,28 +113,7 @@ export default function Home(){
 
                 </div>
 
-                <AddTaskForm />
-
-              </div>
-
-              <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                
-                <button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                >
-                  Adicionar
-                </button>
-                
-                <button
-                  type="button"
-                  data-autofocus
-                  onClick={() => setOpen(false)}
-                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                >
-                  Cancelar
-                </button>
+                <AddTaskForm setOpen={setOpen} setRefreshTable={setRefreshTable} refreshTable={refreshTalbe}/>
 
               </div>
 
