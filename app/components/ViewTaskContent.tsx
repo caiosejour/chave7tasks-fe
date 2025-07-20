@@ -3,34 +3,22 @@ import axios from "axios"
 
 import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 
+import TaskType from "./../types/Task"
+
 interface ViewTaskContentProps{
 
   setOpenTask: Function
+  setOpen: Function
   setRefreshTable: Function
   refreshTable: Boolean
   taskId: String
+  setTask: Function
+  task: TaskType
+  setEditMode: Function
 
 }
 
 export default function ViewTaskContent(props: ViewTaskContentProps){
-
-  const [task, setTask] = useState({
-
-    "id": "",
-    "title": "",
-    "description": "",
-    "owner": {
-
-      "name": "",
-      "surName": "",
-      "photoUrl": ""
-
-    },
-    "status": "",
-    "type": "",
-    "createdAt": ""
-
-  });
 
   function concludeTask(){
 
@@ -118,10 +106,57 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
   }
 
+  function editTask(){
+
+    props.setEditMode(true)
+    props.setOpenTask(false)
+    props.setOpen(true)
+
+
+  }
+
+  function deleteTask(){
+
+    const data = JSON.stringify({
+      
+      query: `
+
+        mutation{
+
+          deleteTask(id:"${props.taskId}")
+
+        }
+
+      `,
+      variables: {}
+
+    });
+
+    const config = {
+
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:4000',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+
+    };
+
+    axios.request(config).then(res => {
+
+      props.setRefreshTable(!props.refreshTable)
+
+    })
+    
+    props.setOpenTask(false)
+
+  }
 
   function renderActionButton(){
 
-    if(task.status == "Pendente"){
+    if(props.task.status == "Pendente"){
 
       return(
         
@@ -172,6 +207,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
             description
             owner{
 
+              id
               name
               surName
               photoUrl
@@ -205,7 +241,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
     axios.request(config).then(res => {
 
       console.log(res.data.data.task)
-      setTask(res.data.data.task)
+      props.setTask(res.data.data.task)
 
     })
 
@@ -222,7 +258,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
           <p className='text-base font-semibold text-gray-900'>Tarefa</p>
 
-          <p className='mt-1 text-sm/6 text-gray-600'>{task.title}</p>
+          <p className='mt-1 text-sm/6 text-gray-600'>{props.task.title}</p>
           
         </div>
         {/* Tarefa */}
@@ -232,7 +268,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
           <p className='text-base font-semibold text-gray-900'>Descrição</p>
 
-          <p className='mt-1 text-sm/6 text-gray-600'>{task.description}</p>
+          <p className='mt-1 text-sm/6 text-gray-600'>{props.task.description}</p>
           
         </div>
         {/* Descrição */}
@@ -246,15 +282,15 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
                 <div className="flex-col content-center">
 
-                  <img alt="" src={task.owner.photoUrl} className="size-15 rounded-full border" />
+                  <img alt="" src={props.task.owner.photoUrl} className="size-15 rounded-full border" />
 
 
                 </div>
                                     
                 <div className="min-w-0 flex-auto">
 
-                  <p className="text-sm/6 font-semibold text-gray-900">{task.owner.name + ' ' + task.owner.surName}</p>
-                  <p className="mt-1 truncate text-xs/5 text-gray-500">Criado em {task.createdAt}</p>
+                  <p className="text-sm/6 font-semibold text-gray-900">{props.task.owner.name + ' ' + props.task.owner.surName}</p>
+                  <p className="mt-1 truncate text-xs/5 text-gray-500">Criado em {props.task.createdAt}</p>
 
                 </div>
 
@@ -266,9 +302,9 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
               <div className="flex sm:flex-col sm:items-end">
 
-                  <p className="text-sm/6 text-gray-900">{task.type}</p>
+                  <p className="text-sm/6 text-gray-900">{props.task.type}</p>
 
-                  {(task.status == "Pendente") ? (
+                  {(props.task.status == "Pendente") ? (
 
                     <div className="mt-1 flex items-center gap-x-1.5">
 
@@ -306,7 +342,6 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
           
           <button
             type="button"
-            data-autofocus
             onClick={() => props.setOpenTask(false)}
             className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
           >
@@ -319,7 +354,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
             <button
               type="button"
-              onClick={() => props.setOpenTask(false)}
+              onClick={() => deleteTask()}
               className="inline-flex w-full justify-center rounded-md border border-red-600 px-3 py-2 text-sm font-semibold text-red-600 shadow-xs hover:bg-red-600 hover:text-white sm:ml-3 sm:w-auto"
             >
 
@@ -329,7 +364,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
             <button
               type="button"
-              onClick={() => props.setOpenTask(false)}
+              onClick={() => editTask()}
               className="inline-flex w-full justify-center rounded-md border border-blue-600 text-blue-600 px-3 py-2 text-sm font-semibold shadow-xs hover:bg-blue-600 hover:text-white sm:ml-3 sm:w-auto"
             >
 

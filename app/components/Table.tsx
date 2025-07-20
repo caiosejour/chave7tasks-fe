@@ -90,7 +90,7 @@ export default function TasksTable(props: tableProps){
 
               <li key={task.id} className="">
 
-                <a onClick={() => triggerModal(task.id)} className='flex justify-between align-middle gap-x-6 py-5 cursor-pointer'>
+                <a onClick={() => triggerModal(task.id)} className='flex justify-between align-middle gap-x-6 py-5 cursor-pointer hover:bg-gray-100 px-4'>
               
                   <div className="flex min-w-0 gap-x-4">
 

@@ -10,6 +10,8 @@ import { useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { RectangleStackIcon, ViewfinderCircleIcon, PlusIcon } from '@heroicons/react/24/outline'
 
+import TaskType from "./types/Task"
+
 export default function Home(){
 
   const [open, setOpen] = useState(false)
@@ -17,6 +19,32 @@ export default function Home(){
   const [refreshTalbe, setRefreshTable] = useState(false)
 
   const [taskId, setTaskId] = useState('')
+  const [task, setTask] = useState<TaskType>({
+
+    "id": "",
+    "title": "",
+    "description": "",
+    "owner": {
+
+      "id": "",
+      "name": "",
+      "surName": "",
+      "photoUrl": ""
+
+    },
+    "status": "",
+    "type": "",
+    "createdAt": ""
+
+  });
+  const [editMode, setEditMode] = useState(false);
+
+  function openAddTaskModal(){
+    
+    setEditMode(false)
+    setOpen(true)
+
+  }
   
   return(
 
@@ -51,7 +79,7 @@ export default function Home(){
           <a
             className="flex rounded-sm border border-blue-500 px-8 py-3 text-sm font-medium text-blue-500 hover:bg-blue-500 hover:text-white hover:border-blue-500"
             href="#"
-            onClick={() => setOpen(true)}
+            onClick={() => openAddTaskModal()}
           >
 
             <PlusIcon aria-hidden="true" className="size-5 mr-4" />
@@ -100,18 +128,18 @@ export default function Home(){
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     
                     <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
-                      Adicionar nova tarefa
+                      {editMode ? "Editar tarefa" : "Adicionar nova tarefa"}
                     </DialogTitle> 
 
                     <p className="mt-1 text-sm/6 text-gray-600">
-                      Apenas o campo descrição não é obrigatório
+                      Preencha com os dados da tarefa
                     </p>
 
                   </div>
 
                 </div>
 
-                <AddTaskForm setOpen={setOpen} setRefreshTable={setRefreshTable} refreshTable={refreshTalbe}/>
+                <AddTaskForm setOpen={setOpen} setRefreshTable={setRefreshTable} refreshTable={refreshTalbe} setEditMode={setEditMode} editMode={editMode} task={task}/>
 
               </div>
 
@@ -159,7 +187,7 @@ export default function Home(){
 
                 </div>
 
-                <ViewTaskContent setOpenTask={setOpenTask} setRefreshTable={setRefreshTable} refreshTable={refreshTalbe} taskId={taskId} />
+                <ViewTaskContent setOpen={setOpen} setOpenTask={setOpenTask} setRefreshTable={setRefreshTable} refreshTable={refreshTalbe} taskId={taskId} setTask={setTask} task={task} setEditMode={setEditMode}/>
 
               </div>
 
