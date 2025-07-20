@@ -35,7 +35,13 @@ export default function TasksTable(props: tableProps){
               id
               title
               description
-              ownerId
+              owner{
+
+                name
+                surName
+                photoUrl
+
+              }
               status
               type
               createdAt
@@ -63,7 +69,11 @@ export default function TasksTable(props: tableProps){
 
     axios.request(config).then(res => {
 
-      // console.log(res.data.data.tasks)
+      console.log(res.data.data.tasks)
+
+      console.log(res.data.data.user)
+
+
       setTasks(res.data.data.tasks)
 
     })
@@ -86,7 +96,7 @@ export default function TasksTable(props: tableProps){
 
                       <div className="flex-col content-center">
 
-                        <img alt="" src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80' className="size-15 rounded-full" />
+                        <img alt="" src={task.owner.photoUrl} className="size-15 rounded-full border"/>
 
                       </div>
                                           
@@ -104,7 +114,7 @@ export default function TasksTable(props: tableProps){
 
                       <p className="text-sm/6 text-gray-900">{task.type}</p>
 
-                      <p className="mt-1 truncate text-xs/5 text-gray-500">{task.ownerId}</p>
+                      <p className="mt-1 truncate text-xs/5 text-gray-500">{task.owner.name + ' ' + task.owner.surName}</p>
 
                       {(task.status == "Pendente") ? (
 

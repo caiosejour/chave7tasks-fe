@@ -2,7 +2,13 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { RectangleStackIcon, CheckBadgeIcon, ExclamationTriangleIcon, ChartPieIcon } from '@heroicons/react/24/solid'
 
-export default function Indicators(){
+interface IndicatorsProps{
+
+  refreshTable: Boolean
+
+}
+
+export default function Indicators(props: IndicatorsProps){
 
     const [stats, setStats] = useState({
 
@@ -56,7 +62,7 @@ export default function Indicators(){
 
       })
 
-    }, []);
+    }, [props.refreshTable]);
 
     return(
 

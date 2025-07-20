@@ -1,12 +1,13 @@
-import Image from 'next/image'
-
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-import FotoCaio from "@/app/assets/fotoCaio.jpg";
+import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 
 interface ViewTaskContentProps{
 
+  setOpenTask: Function
+  setRefreshTable: Function
+  refreshTable: Boolean
   taskId: String
 
 }
@@ -18,12 +19,141 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
     "id": "",
     "title": "",
     "description": "",
-    "ownerId": "",
+    "owner": {
+
+      "name": "",
+      "surName": "",
+      "photoUrl": ""
+
+    },
     "status": "",
     "type": "",
     "createdAt": ""
 
   });
+
+  function concludeTask(){
+
+    const data = JSON.stringify({
+      
+      query: `
+
+        mutation{
+
+          updateTask(id:"${props.taskId}", status: "Concluído"){
+
+            id
+
+          }
+
+        }
+
+      `,
+      variables: {}
+
+    });
+
+    const config = {
+
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:4000',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+
+    };
+
+    axios.request(config).then(res => {
+
+      props.setRefreshTable(!props.refreshTable)
+
+    })
+
+    props.setOpenTask(false)
+
+  }
+
+  function reopenTask(){
+
+    const data = JSON.stringify({
+      
+      query: `
+
+        mutation{
+
+          updateTask(id:"${props.taskId}", status: "Pendente"){
+
+            id
+
+          }
+
+        }
+
+      `,
+      variables: {}
+
+    });
+
+    const config = {
+
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:4000',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+
+    };
+
+    axios.request(config).then(res => {
+
+      props.setRefreshTable(!props.refreshTable)
+
+    })
+
+    props.setOpenTask(false)
+
+  }
+
+
+  function renderActionButton(){
+
+    if(task.status == "Pendente"){
+
+      return(
+        
+        <button
+          type="button"
+          onClick={() => concludeTask()}
+          className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto"
+        >
+
+          Concluir tarefa
+
+        </button>
+      )
+
+    }else{
+
+      return(
+        
+        <button
+          type="button"
+          onClick={() => reopenTask()}
+          className="inline-flex w-full justify-center rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-yellow-500 sm:ml-3 sm:w-auto"
+        >
+
+          Reabrir tarefa
+
+        </button>
+      )
+
+    }
+
+  }
 
   useEffect(() => {
 
@@ -40,7 +170,13 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
             id
             title
             description
-            ownerId
+            owner{
+
+              name
+              surName
+              photoUrl
+
+            }
             status
             type
             createdAt
@@ -101,7 +237,6 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
         </div>
         {/* Descrição */}
 
-
         {/* Autor e Categoria */}
         <div className='flex col-span-full grid-cols-6 gap-4'>
 
@@ -111,13 +246,14 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
                 <div className="flex-col content-center">
 
-                  <Image alt="" src={FotoCaio} className="size-12 rounded-full" />
+                  <img alt="" src={task.owner.photoUrl} className="size-15 rounded-full border" />
+
 
                 </div>
                                     
                 <div className="min-w-0 flex-auto">
 
-                  <p className="text-sm/6 font-semibold text-gray-900">{task.ownerId}</p>
+                  <p className="text-sm/6 font-semibold text-gray-900">{task.owner.name + ' ' + task.owner.surName}</p>
                   <p className="mt-1 truncate text-xs/5 text-gray-500">Criado em {task.createdAt}</p>
 
                 </div>
@@ -164,6 +300,50 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
         </div>
         {/* Autor e Categoria */}
+
+        {/* Botões */}
+        <div className="col-span-full flex justify-between border-t pt-4 border-gray-200">
+          
+          <button
+            type="button"
+            data-autofocus
+            onClick={() => props.setOpenTask(false)}
+            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+          >
+
+            Cancelar
+
+          </button>
+
+          <div className="flex">
+
+            <button
+              type="button"
+              onClick={() => props.setOpenTask(false)}
+              className="inline-flex w-full justify-center rounded-md border border-red-600 px-3 py-2 text-sm font-semibold text-red-600 shadow-xs hover:bg-red-600 hover:text-white sm:ml-3 sm:w-auto"
+            >
+
+              <TrashIcon aria-hidden="true" className="size-5" />
+
+            </button>
+
+            <button
+              type="button"
+              onClick={() => props.setOpenTask(false)}
+              className="inline-flex w-full justify-center rounded-md border border-blue-600 text-blue-600 px-3 py-2 text-sm font-semibold shadow-xs hover:bg-blue-600 hover:text-white sm:ml-3 sm:w-auto"
+            >
+
+              <PencilSquareIcon aria-hidden="true" className="size-5" />
+
+            </button>
+
+            {renderActionButton()}
+
+          </div>
+          
+          
+        </div>
+        {/* Botões */}
 
       </div>
 

@@ -61,28 +61,6 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
   }
 
-  function renderUsersOptions(){
-
-    return(
-
-      <select
-          name="ownerId"
-          autoComplete="country-name"
-          className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-      >
-      
-          {users.map((user) => {
-                      
-            return <option value={user.id}>{user.name}</option>
-
-          })}
-
-      </select>
-      
-    )
-
-  }
-
   useEffect(() => {
 
     const data = JSON.stringify({
@@ -95,6 +73,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
             id
             name
+            surName
 
           }
 
@@ -119,7 +98,6 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
     axios.request(config).then(res => {
 
-      console.log(res.data.data.users)
       setUsers(res.data.data.users)
 
     })
@@ -144,6 +122,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
             <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
               
               <input
+                required
                 name="title"
                 type="text"
                 placeholder="Tarefa"
@@ -159,9 +138,11 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
         {/* Descrição */}
         <div className="col-span-full">
+
           <label htmlFor="about" className="block text-sm/6 font-medium text-gray-900">
             Descrição
           </label>
+
           <div className="mt-2">
             <textarea
               name="description"
@@ -193,7 +174,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
                   {users.map((user) => {
                     
-                    return <option value={user.id}>{user.name}</option>
+                    return <option value={user.id}>{user.name + ' ' + user.surName}</option>
 
                   })}
                   
@@ -223,7 +204,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
                   <option value="Trabalho">Trabalho</option>
                   <option value="Pessoal">Pessoal</option>
-                  <option value="Estudo">Estudo</option>
+                  <option value="Estudo">Estudos</option>
 
                 </select>
 
@@ -263,8 +244,6 @@ export default function AddTaskForm(props: AddTaskFormProps){
         {/* Botões */}
 
       </div>
-
-      
 
     </form>
 
