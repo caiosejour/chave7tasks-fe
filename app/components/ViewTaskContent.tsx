@@ -1,11 +1,80 @@
 import Image from 'next/image'
 
-import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 import FotoCaio from "@/app/assets/fotoCaio.jpg";
 
+interface ViewTaskContentProps{
 
-export default function ViewTaskContent(){
+  taskId: String
+
+}
+
+export default function ViewTaskContent(props: ViewTaskContentProps){
+
+  const [task, setTask] = useState({
+
+    "id": "",
+    "title": "",
+    "description": "",
+    "ownerId": "",
+    "status": "",
+    "type": "",
+    "createdAt": ""
+
+  });
+
+  useEffect(() => {
+
+    console.log('ID da tarefa: ' + props.taskId)
+
+    const data = JSON.stringify({
+      
+      query: `
+
+        query{
+
+          task(id:"${props.taskId}"){
+
+            id
+            title
+            description
+            ownerId
+            status
+            type
+            createdAt
+
+          }
+
+        }
+
+      `,
+      variables: {}
+
+    });
+
+    const config = {
+
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:4000',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+
+    };
+
+    axios.request(config).then(res => {
+
+      console.log(res.data.data.task)
+      setTask(res.data.data.task)
+
+    })
+
+  }, []);
+
   return(
 
     <form>
@@ -17,7 +86,7 @@ export default function ViewTaskContent(){
 
           <p className='text-base font-semibold text-gray-900'>Tarefa</p>
 
-          <p className='mt-1 text-sm/6 text-gray-600'>Criar o sistema de gestão chave7</p>
+          <p className='mt-1 text-sm/6 text-gray-600'>{task.title}</p>
           
         </div>
         {/* Tarefa */}
@@ -27,7 +96,7 @@ export default function ViewTaskContent(){
 
           <p className='text-base font-semibold text-gray-900'>Descrição</p>
 
-          <p className='mt-1 text-sm/6 text-gray-600'>Sistema para ser entregue com documentação e testes automatizados até segunda-feira às 09:00 da manhã.</p>
+          <p className='mt-1 text-sm/6 text-gray-600'>{task.description}</p>
           
         </div>
         {/* Descrição */}
@@ -48,9 +117,8 @@ export default function ViewTaskContent(){
                                     
                 <div className="min-w-0 flex-auto">
 
-                  <p className="text-sm/6 font-semibold text-gray-900">Caio Séjour</p>
-                  <p className="mt-1 truncate text-xs/5 text-gray-500">Criado em 16/07/2024</p>
-                  {/* <p className="mt-1 truncate text-xs/5 text-gray-500">{person.email}</p> */}
+                  <p className="text-sm/6 font-semibold text-gray-900">{task.ownerId}</p>
+                  <p className="mt-1 truncate text-xs/5 text-gray-500">Criado em {task.createdAt}</p>
 
                 </div>
 
@@ -62,17 +130,33 @@ export default function ViewTaskContent(){
 
               <div className="flex sm:flex-col sm:items-end">
 
-                  <p className="text-sm/6 text-gray-900">Trabalho</p>
+                  <p className="text-sm/6 text-gray-900">{task.type}</p>
 
-                  <div className="mt-1 flex items-center gap-x-1.5">
+                  {(task.status == "Pendente") ? (
 
-                      <div className="flex-none rounded-full bg-red-500/20 p-1">
-                        <div className="size-1.5 rounded-full bg-red-500" />
-                      </div>
+                    <div className="mt-1 flex items-center gap-x-1.5">
 
-                      <p className="text-xs/5 text-gray-500">Pendente</p>
+                        <div className="flex-none rounded-full bg-red-500/20 p-1">
+                          <div className="size-1.5 rounded-full bg-red-500" />
+                        </div>
 
-                  </div>
+                        <p className="text-xs/5 text-gray-500">Pendente</p>
+
+                    </div>
+
+                  ) : (
+
+                    <div className="mt-1 flex items-center gap-x-1.5">
+
+                        <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                          <div className="size-1.5 rounded-full bg-emerald-500" />
+                        </div>
+
+                        <p className="text-xs/5 text-gray-500">Concluído</p>
+
+                    </div>
+
+                  )}
 
               </div>
 

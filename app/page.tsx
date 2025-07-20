@@ -12,11 +12,11 @@ import { RectangleStackIcon, ViewfinderCircleIcon, TrashIcon, PencilSquareIcon }
 
 import { PlusIcon } from '@heroicons/react/24/solid'
 
-
 export default function Home(){
 
   const [open, setOpen] = useState(false)
   const [openTask, setOpenTask] = useState(false)
+  const [taskId, setTaskId] = useState('')
   
   return(
 
@@ -37,7 +37,6 @@ export default function Home(){
               name="categorie"
               id="categorie"
               className="text-blue-500 text-sm py-3 pr-2"
-              onClick={() => setOpenTask(true)}
             >
                 
               <option value="todos">Todos</option>
@@ -67,12 +66,10 @@ export default function Home(){
         {/* Tasks */}
         <section className="mt-10">
 
-            <Table/>
+            <Table setOpenTask={setOpenTask} setTaskId={setTaskId}/>
             
         </section>
         {/* Tasks */}
-
-
 
       </div>
 
@@ -182,7 +179,7 @@ export default function Home(){
 
                 </div>
 
-                <ViewTaskContent />
+                <ViewTaskContent taskId={taskId} />
 
               </div>
 

@@ -3,71 +3,23 @@ import axios from "axios"
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 
-const people = [
-  
-  {
-    name: 'Laryssa',
-    title: 'Título da tarefa',
-    email: 'teste',
-    role: 'Trabalho',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: null,
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Caio Séjour',
-    title: 'Criar dash de gestão de tarefas das Chave7',
-    email: 'Um sistema que precisa ser criado e enviado até 21/07 às 09:00hs.',
-    role: 'Trabalho',
-    imageUrl:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: null,
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Dries Vincent',
-    title: 'Título da tarefa',
-    email: 'dries.vincent@example.com',
-    role: 'Business Relations',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: null,
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Título da tarefa',
-    email: 'lindsay.walton@example.com',
-    role: 'Front-end Developer',
-    imageUrl:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: '3h ago',
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Courtney Henry',
-    title: 'Título da tarefa',
-    email: 'courtney.henry@example.com',
-    role: 'Designer',
-    imageUrl:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: '3h ago',
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Título da tarefa',
-    email: 'tom.cook@example.com',
-    role: 'Director of Product',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: null,
-  },
-]
+interface tableProps{
 
-export default function TasksTable(){
+  setOpenTask: Function
+  setTaskId: Function
+
+}
+
+export default function TasksTable(props: tableProps){
 
   const [tasks, setTasks] = useState([]);
+
+  function triggerModal(taskId: String){
+
+    props.setOpenTask(true)
+    props.setTaskId(taskId)
+
+  }
   
   useEffect(() => {
 
@@ -110,7 +62,7 @@ export default function TasksTable(){
 
     axios.request(config).then(res => {
 
-      console.log(res.data.data.tasks)
+      // console.log(res.data.data.tasks)
       setTasks(res.data.data.tasks)
 
     })
@@ -127,7 +79,7 @@ export default function TasksTable(){
 
               <li key={task.id} className="">
 
-                <a href="#" className='flex justify-between align-middle gap-x-6 py-5'>
+                <a onClick={() => triggerModal(task.id)} className='flex justify-between align-middle gap-x-6 py-5 cursor-pointer'>
               
                   <div className="flex min-w-0 gap-x-4">
 
