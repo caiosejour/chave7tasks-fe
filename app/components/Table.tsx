@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react"
+import axios from "axios"
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 
 const people = [
@@ -63,6 +66,56 @@ const people = [
 ]
 
 export default function TasksTable(){
+
+  const [tasks, setTasks] = useState([]);
+  
+  useEffect(() => {
+
+    const data = JSON.stringify({
+      
+      query: `
+
+        query{
+
+            tasks{
+
+              id
+              title
+              description
+              ownerId
+              status
+              type
+              createdAt
+
+            }
+
+        }
+
+      `,
+      variables: {}
+
+    });
+
+    const config = {
+
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:4000',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+
+    };
+
+    axios.request(config).then(res => {
+
+      console.log(res.data.data.tasks)
+      setTasks(res.data.data.tasks)
+
+    })
+
+  }, []);
   
   return (
 
@@ -70,9 +123,9 @@ export default function TasksTable(){
 
         <ul role="list" className="divide-y divide-gray-100">
 
-          {people.map((person) => (
+          {tasks.map((task) => (
 
-              <li key={person.email} className="">
+              <li key={task.id} className="">
 
                 <a href="#" className='flex justify-between align-middle gap-x-6 py-5'>
               
@@ -80,15 +133,15 @@ export default function TasksTable(){
 
                       <div className="flex-col content-center">
 
-                        <img alt="" src={person.imageUrl} className="size-15 rounded-full" />
+                        <img alt="" src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80' className="size-15 rounded-full" />
 
                       </div>
                                           
                       <div className="min-w-0 flex-auto">
 
-                        <p className="mt-1 truncate text-xs/5 text-gray-500">16/07/2024</p>
-                        <p className="text-sm/6 font-semibold text-gray-900">{person.title}</p>
-                        <p className="mt-1 truncate text-xs/5 text-gray-500">{person.email}</p>
+                        <p className="mt-1 truncate text-xs/5 text-gray-500">{task.createdAt}</p>
+                        <p className="text-sm/6 font-semibold text-gray-900">{task.title}</p>
+                        <p className="mt-1 truncate text-xs/5 text-gray-500">{task.description}</p>
 
                       </div>
 
@@ -96,11 +149,11 @@ export default function TasksTable(){
 
                   <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
 
-                      <p className="text-sm/6 text-gray-900">{person.role}</p>
+                      <p className="text-sm/6 text-gray-900">{task.type}</p>
 
-                      <p className="mt-1 truncate text-xs/5 text-gray-500">{person.name}</p>
+                      <p className="mt-1 truncate text-xs/5 text-gray-500">{task.ownerId}</p>
 
-                      {person.lastSeen ? (
+                      {(task.status == "Pendente") ? (
 
                         <div className="mt-1 flex items-center gap-x-1.5">
 
