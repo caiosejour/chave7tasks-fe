@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, Dispatch, SetStateAction } from "react"
 import axios from "axios"
 
 import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
@@ -7,14 +7,14 @@ import TaskType from "./../types/Task"
 
 interface ViewTaskContentProps{
 
-  setOpenTask: Function
-  setOpen: Function
-  setRefreshTable: Function
-  refreshTable: Boolean
-  taskId: String
-  setTask: Function
+  setOpenTask: Dispatch<SetStateAction<boolean>>
+  setOpen: Dispatch<SetStateAction<boolean>>
+  setRefreshTable: Dispatch<SetStateAction<boolean>>
+  refreshTable: boolean
+  taskId: string
+  setTask: Dispatch<SetStateAction<TaskType>>
   task: TaskType
-  setEditMode: Function
+  setEditMode: Dispatch<SetStateAction<boolean>>
 
 }
 

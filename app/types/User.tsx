@@ -1,8 +1,8 @@
 export default interface UserType{
 
-    id: String,
-    name: String,
-    surName: String,
-    photoUrl: String
+    id: string,
+    name: string,
+    surName: string,
+    photoUrl: string
 
 }

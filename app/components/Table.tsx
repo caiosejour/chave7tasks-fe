@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, Dispatch, SetStateAction } from "react"
 
 import axios from "axios"
 
@@ -6,10 +6,10 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 
 interface tableProps{
 
-  setOpenTask: Function
-  setTaskId: Function
-  refreshTalbe: Boolean
-  filter: String
+  setOpenTask: Dispatch<SetStateAction<boolean>>
+  setTaskId: Dispatch<SetStateAction<string>>
+  refreshTalbe: boolean
+  filter: string
 
 }
 
@@ -17,17 +17,17 @@ export default function TasksTable(props: tableProps){
 
   const [tasks, setTasks] = useState([])
 
-  const [offset, setOffset] = useState<Number>(0)
-  const [totalTasks, setTotalTasks] = useState<Number>(0)
+  const [offset, setOffset] = useState<number>(0)
+  const [totalTasks, setTotalTasks] = useState<number>(0)
   
-  function triggerModal(taskId: String){
+  function triggerModal(taskId: string){
 
     props.setOpenTask(true)
     props.setTaskId(taskId)
 
   }
 
-  function changeOffset(operation: String){
+  function changeOffset(operation: string){
 
     if(operation === "+"){
 

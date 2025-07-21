@@ -1,16 +1,16 @@
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import { useState, useEffect, FormEvent, useRef } from 'react'
+import { useState, useEffect, FormEvent, useRef, Dispatch, SetStateAction } from 'react'
 import axios from 'axios'
 
 import TaskType from "./../types/Task"
 
 interface AddTaskFormProps{
 
-  setOpen: Function
-  setRefreshTable: Function
-  refreshTable: Boolean
-  editMode: Boolean
-  setEditMode: Function
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  setRefreshTable: Dispatch<SetStateAction<boolean>>
+  refreshTable: boolean
+  editMode: boolean
+  setEditMode: Dispatch<SetStateAction<boolean>>
   task: TaskType
 
 }
@@ -18,6 +18,12 @@ interface AddTaskFormProps{
 export default function AddTaskForm(props: AddTaskFormProps){
 
   const [users, setUsers] = useState([]);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [ownerId, setOwnerId] = useState("");
+  const [type, setType] = useState("");
+
 
   const formRef = useRef(null)
 
@@ -31,7 +37,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
         mutation{
 
-          createTask(title: "${e.target.title.value}", ownerId: "${e.target.ownerId.value}", type: "${e.target.type.value}", description: "${e.target.description.value}") {
+          createTask(title: "${title}", ownerId: "${ownerId}", type: "${type}", description: "${description}") {
 
             id
             
@@ -77,7 +83,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
         mutation{
 
-          updateTask(id: "${props.task.id}", title: "${e.target.title.value}", ownerId: "${e.target.ownerId.value}", type: "${e.target.type.value}", description: "${e.target.description.value}") {
+          updateTask(id: "${props.task.id}", title: "${title}", ownerId: "${ownerId}", type: "${type}", description: "${description}") {
 
             id
             
@@ -110,6 +116,11 @@ export default function AddTaskForm(props: AddTaskFormProps){
   }
 
   function submitForm(e: FormEvent){
+
+    console.log(title)
+    console.log(description)
+    console.log(ownerId)
+    console.log(type)
 
     if(props.editMode){
 
@@ -204,12 +215,20 @@ export default function AddTaskForm(props: AddTaskFormProps){
         formRef.current.ownerId.value = props.task.owner.id
         formRef.current.type.value = props.task.type
 
+        setTitle(props.task.title)
+        setDescription(props.task.description)
+        setOwnerId(props.task.owner.id)
+        setType(props.task.type)
+
       }else{
 
         formRef.current.title.value = ""
         formRef.current.description.value = ""
         formRef.current.ownerId.value = res.data.data.users[0].id
         formRef.current.type.value = "Trabalho"
+
+        setOwnerId(res.data.data.users[0].id)
+        setType("Trabalho")
 
       }
 
@@ -237,6 +256,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
               <input
                 required
                 name="title"
+                onChange={e => setTitle(e.target.value)}
                 type="text"
                 placeholder="Tarefa"
                 className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
@@ -259,6 +279,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
           <div className="mt-2">
             <textarea
               name="description"
+              onChange={e => setDescription(e.target.value)}
               rows={3}
               className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               defaultValue={''}
@@ -281,12 +302,15 @@ export default function AddTaskForm(props: AddTaskFormProps){
               
                 <select
                     name="ownerId"
+                    required
+                    onChange={e => setOwnerId(e.target.value)}
                     className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 >
 
+                  {/* <option selected key="1">-</option> */}
                   {users.map((user) => {
                     
-                    return <option key={user.id} value={user.id}>{user.name + ' ' + user.surName}</option>
+                    return <option value={user.id}>{user.name + ' ' + user.surName}</option>
 
                   })}
                   
@@ -311,6 +335,8 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
                 <select
                   name="type"
+                  required
+                  onChange={e => setType(e.target.value)}
                   className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 >
 

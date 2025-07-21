@@ -4,7 +4,7 @@ import { RectangleStackIcon, CheckBadgeIcon, ExclamationTriangleIcon, ChartPieIc
 
 interface IndicatorsProps{
 
-  refreshTable: Boolean
+  refreshTable: boolean
 
 }
 

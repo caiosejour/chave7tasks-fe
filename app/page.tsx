@@ -43,7 +43,7 @@ export default function Home(){
 
   function changeFilter(e: FormEvent){
     
-    setFilter(e.target.value)
+    setFilter((e.target as HTMLTextAreaElement).value)
 
   }
 

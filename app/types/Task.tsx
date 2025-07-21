@@ -2,12 +2,12 @@ import UserType from "./User";
 
 export default interface TaskType{
 
-    id: String,
-    title: String,
-    description: String,
+    id: string,
+    title: string,
+    description: string,
     owner: UserType,
-    type: String,
-    status: String,
-    createdAt: String
+    type: string,
+    status: string,
+    createdAt: string
 
 }
