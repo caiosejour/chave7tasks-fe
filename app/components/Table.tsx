@@ -127,7 +127,7 @@ export default function TasksTable(props: tableProps){
   
   return (
 
-    <div>
+    <div className="">
 
         <ul role="list" className="divide-y divide-gray-100">
 
@@ -141,7 +141,7 @@ export default function TasksTable(props: tableProps){
 
                       <div className="flex-col content-center">
 
-                        <img alt="" src={task.owner.photoUrl} className="size-15 rounded-full border"/>
+                        <img alt="" src={task.owner.photoUrl} className="size-15 rounded-full border max-w-min"/>
 
                       </div>
                                           
@@ -155,7 +155,7 @@ export default function TasksTable(props: tableProps){
 
                   </div>
 
-                  <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                  <div className="shrink-0 flex flex-col items-end">
 
                       <p className="text-sm/6 text-gray-900">{task.type}</p>
 
@@ -198,9 +198,9 @@ export default function TasksTable(props: tableProps){
         </ul>
 
         {/* Paginação */}
-        <div className=" flex items-center justify-between py-4">
+        <div className="flex items-center justify-between py-4">
 
-          <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+          <div className="flex flex-1 items-center justify-between">
               <div>
               <p className="text-sm text-gray-700">
                   Mostrando de <span className="font-medium">{(+offset + 1)}</span> a <span className="font-medium">{(+offset + 10)}</span> de{' '}
@@ -209,23 +209,31 @@ export default function TasksTable(props: tableProps){
 
               </div>
               <div>
-              <nav aria-label="Pagination" className="isolate inline-flex -space-x-px rounded-md shadow-xs">
-                  <a
-                  onClick={() => changeOffset("-")}
-                  className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                  <span className="sr-only">Previous</span>
-                  <ChevronLeftIcon aria-hidden="true" className="size-5" />
-                  </a>
-                  
-                  <a
-                  onClick={() => changeOffset("+")}
-                  className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                  <span className="sr-only">Next</span>
-                  <ChevronRightIcon aria-hidden="true" className="size-5" />
-                  </a>
-              </nav>
+
+                <nav aria-label="Pagination" className="isolate inline-flex -space-x-px rounded-md shadow-xs">
+                    
+                    <a
+                    onClick={() => changeOffset("-")}
+                    className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    >
+
+                      <span className="sr-only">Previous</span>
+                      <ChevronLeftIcon aria-hidden="true" className="size-5" />
+
+                    </a>
+                    
+                    <a
+                    onClick={() => changeOffset("+")}
+                    className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    >
+
+                      <span className="sr-only">Next</span>
+                      <ChevronRightIcon aria-hidden="true" className="size-5" />
+
+                    </a>
+
+                </nav>
+                
               </div>
           </div>
           

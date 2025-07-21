@@ -131,8 +131,8 @@ export default function AddTaskForm(props: AddTaskFormProps){
         
           <button
             type="submit"
-            data-autofocus
-            className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto"
+            className="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:mt-0 sm:w-auto ml-4"
+
           >
             Editar
           </button>
@@ -145,8 +145,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
         
           <button
             type="submit"
-            data-autofocus
-            className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto"
+            className="mt-3 inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:mt-0 sm:w-auto ml-4"
           >
             Adicionar
           </button>
@@ -227,7 +226,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
         {/* Título */}
         <div className="col-span-full">
 
-          <label htmlFor="title" className="block text-sm/6 font-medium text-gray-900">
+          <label className="block text-sm/6 font-medium text-gray-900">
             Título da tarefa
           </label>
 
@@ -253,7 +252,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
         {/* Descrição */}
         <div className="col-span-full">
 
-          <label htmlFor="about" className="block text-sm/6 font-medium text-gray-900">
+          <label className="block text-sm/6 font-medium text-gray-900">
             Descrição
           </label>
 
@@ -274,7 +273,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
             <div className="flex-1">
 
-              <label htmlFor="country" className="block text-sm/6 font-medium text-gray-900">
+              <label className="block text-sm/6 font-medium text-gray-900">
                 Autor
               </label>
 
@@ -304,7 +303,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
             <div className="flex-1">
 
-              <label htmlFor="country" className="block text-sm/6 font-medium text-gray-900">
+              <label className="block text-sm/6 font-medium text-gray-900">
                 Categoria
               </label>
 

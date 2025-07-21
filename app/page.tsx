@@ -60,7 +60,7 @@ export default function Home(){
       
       <Navbar/>
 
-      <div className="p-4 mx-20 mt-6">
+      <div className="p-4 md:mx-20 mx-0 mt-4">
 
         <Indicators refreshTable={refreshTalbe}/>
 
@@ -124,7 +124,7 @@ export default function Home(){
             
             <DialogPanel
               transition
-              className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+              className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in my-auto mx-0 w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
             >
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 
@@ -136,7 +136,7 @@ export default function Home(){
                       <RectangleStackIcon aria-hidden="true" className="size-6 text-blue-600" />
                     </div>
 
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                    <div className="mt-0 ml-4 text-left">
                       
                       <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
                         {editMode ? "Editar tarefa" : "Adicionar nova tarefa"}
@@ -185,12 +185,11 @@ export default function Home(){
             
             <DialogPanel
               transition
-              className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+              className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in my-auto mx-0 w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
             >
 
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 
-
                 <div className="flex justify-between">
                   
                   <div className="flex items-start">
@@ -201,7 +200,7 @@ export default function Home(){
 
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       
-                      <DialogTitle as="h3" className="text-base font-semibold text-gray-90 mt-2">
+                      <DialogTitle as="h3" className="text-base font-semibold text-gray-90 sm:mt-2 sm:ml-0 ml-3 mt-0">
                         Visualizar tarefa
                       </DialogTitle> 
 

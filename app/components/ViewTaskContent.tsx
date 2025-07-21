@@ -163,10 +163,10 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
         <button
           type="button"
           onClick={() => concludeTask()}
-          className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto"
+          className="mt-3 ml-2 inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto"
         >
 
-          Concluir tarefa
+          Concluir
 
         </button>
       )
@@ -178,10 +178,10 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
         <button
           type="button"
           onClick={() => reopenTask()}
-          className="inline-flex w-full justify-center rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-yellow-500 sm:ml-3 sm:w-auto"
+          className="mt-3 ml-2 inline-flex w-full justify-center rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-yellow-500 sm:ml-3 sm:w-auto"
         >
 
-          Reabrir tarefa
+          Reabrir
 
         </button>
       )
@@ -282,7 +282,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
                 <div className="flex-col content-center">
 
-                  <img alt="" src={props.task.owner.photoUrl} className="size-15 rounded-full border" />
+                  <img alt="" src={props.task.owner.photoUrl} className="size-15 rounded-full border max-w-min" />
 
 
                 </div>
@@ -300,7 +300,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
             <div className="flex-1 pr-2">
 
-              <div className="flex sm:flex-col sm:items-end">
+              <div className="flex flex-col items-end">
 
                   <p className="text-sm/6 text-gray-900">{props.task.type}</p>
 
@@ -343,7 +343,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
           <button
             type="button"
             onClick={() => props.setOpenTask(false)}
-            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+            className="mt-3 inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 w-auto"
           >
 
             Cancelar
@@ -355,7 +355,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
             <button
               type="button"
               onClick={() => deleteTask()}
-              className="inline-flex w-full justify-center rounded-md border border-red-600 px-3 py-2 text-sm font-semibold text-red-600 shadow-xs hover:bg-red-600 hover:text-white sm:ml-3 sm:w-auto"
+              className="mt-3 ml-2 inline-flex w-full justify-center rounded-md border border-red-600 px-3 py-2 text-sm font-semibold text-red-600 shadow-xs hover:bg-red-600 hover:text-white sm:ml-3 sm:w-auto"
             >
 
               <TrashIcon aria-hidden="true" className="size-5" />
@@ -365,7 +365,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
             <button
               type="button"
               onClick={() => editTask()}
-              className="inline-flex w-full justify-center rounded-md border border-blue-600 text-blue-600 px-3 py-2 text-sm font-semibold shadow-xs hover:bg-blue-600 hover:text-white sm:ml-3 sm:w-auto"
+              className="mt-3 ml-2 inline-flex w-full justify-center rounded-md border border-blue-600 text-blue-600 px-3 py-2 text-sm font-semibold shadow-xs hover:bg-blue-600 hover:text-white sm:ml-3 sm:w-auto"
             >
 
               <PencilSquareIcon aria-hidden="true" className="size-5" />
