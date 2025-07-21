@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+
 import axios from "axios"
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
@@ -8,12 +9,16 @@ interface tableProps{
   setOpenTask: Function
   setTaskId: Function
   refreshTalbe: Boolean
+  filter: String
 
 }
 
 export default function TasksTable(props: tableProps){
 
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([])
+
+  const [offset, setOffset] = useState<Number>(0)
+  const [totalTasks, setTotalTasks] = useState<Number>(0)
   
   function triggerModal(taskId: String){
 
@@ -21,8 +26,30 @@ export default function TasksTable(props: tableProps){
     props.setTaskId(taskId)
 
   }
-  
-  useEffect(() => {
+
+  function changeOffset(operation: String){
+
+    if(operation === "+"){
+
+      if(!((+offset + 11) > (+totalTasks))){
+
+        setOffset(+offset + 10)
+
+      }
+
+    }else{
+
+      if(!(+offset == 0)){
+
+        setOffset(+offset - 10)
+
+      }
+
+    }
+
+  }
+
+  function getTasks(){
 
     const data = JSON.stringify({
       
@@ -30,21 +57,27 @@ export default function TasksTable(props: tableProps){
 
         query{
 
-            tasks{
+            tasks(filter:"${props.filter}", offset: ${offset}, limit: 10){
 
-              id
-              title
-              description
-              owner{
+              tasks{
 
-                name
-                surName
-                photoUrl
+                id
+                title
+                description
+                owner{
+
+                  name
+                  surName
+                  photoUrl
+
+                }
+                status
+                type
+                createdAt
 
               }
-              status
-              type
-              createdAt
+                
+              totalFiltered
 
             }
 
@@ -69,16 +102,28 @@ export default function TasksTable(props: tableProps){
 
     axios.request(config).then(res => {
 
-      console.log(res.data.data.tasks)
-
-      console.log(res.data.data.user)
-
-
-      setTasks(res.data.data.tasks)
+      setTasks(res.data.data.tasks.tasks)
+      setTotalTasks(res.data.data.tasks.totalFiltered)
 
     })
 
-  }, [props.refreshTalbe]);
+  }
+
+  //Muda o filtro e reseta a paginação
+  useEffect(() => {
+
+    setOffset(0)
+
+    getTasks()
+
+  },[props.filter])
+  
+  //Muda o paginação sem remover o filtro
+  useEffect(() => {
+
+    getTasks()
+
+  }, [props.refreshTalbe, offset]);
   
   return (
 
@@ -153,82 +198,28 @@ export default function TasksTable(props: tableProps){
         </ul>
 
         {/* Paginação */}
-        <div className="flex items-center justify-between py-4">
-
-          <div className="flex flex-1 justify-between sm:hidden">
-              <a
-              href="#"
-              className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-              Previous
-              </a>
-              <a
-              href="#"
-              className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-              Next
-              </a>
-          </div>
+        <div className=" flex items-center justify-between py-4">
 
           <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
               <div>
               <p className="text-sm text-gray-700">
-                  Showing <span className="font-medium">1</span> to <span className="font-medium">10</span> of{' '}
-                  <span className="font-medium">97</span> results
+                  Mostrando de <span className="font-medium">{(+offset + 1)}</span> a <span className="font-medium">{(+offset + 10)}</span> de{' '}
+                  <span className="font-medium">{totalTasks.toString()}</span> resultados
               </p>
+
               </div>
               <div>
               <nav aria-label="Pagination" className="isolate inline-flex -space-x-px rounded-md shadow-xs">
                   <a
-                  href="#"
+                  onClick={() => changeOffset("-")}
                   className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                   >
                   <span className="sr-only">Previous</span>
                   <ChevronLeftIcon aria-hidden="true" className="size-5" />
                   </a>
-                  {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
+                  
                   <a
-                  href="#"
-                  aria-current="page"
-                  className="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                  1
-                  </a>
-                  <a
-                  href="#"
-                  className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                  2
-                  </a>
-                  <a
-                  href="#"
-                  className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                  >
-                  3
-                  </a>
-                  <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-300 ring-inset focus:outline-offset-0">
-                  ...
-                  </span>
-                  <a
-                  href="#"
-                  className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                  >
-                  8
-                  </a>
-                  <a
-                  href="#"
-                  className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                  9
-                  </a>
-                  <a
-                  href="#"
-                  className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                  10
-                  </a>
-                  <a
-                  href="#"
+                  onClick={() => changeOffset("+")}
                   className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                   >
                   <span className="sr-only">Next</span>

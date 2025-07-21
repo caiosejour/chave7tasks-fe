@@ -59,7 +59,6 @@ export default function AddTaskForm(props: AddTaskFormProps){
     axios.request(config).then(res => {
 
       console.log(res.data.data.task)
-      setTask(res.data.data.task)
 
     })
 
@@ -288,7 +287,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
                   {users.map((user) => {
                     
-                    return <option value={user.id}>{user.name + ' ' + user.surName}</option>
+                    return <option key={user.id} value={user.id}>{user.name + ' ' + user.surName}</option>
 
                   })}
                   

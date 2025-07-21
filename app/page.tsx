@@ -6,9 +6,9 @@ import Table from "./components/Table"
 import AddTaskForm from "./components/AddTaskForm"
 import ViewTaskContent from "./components/ViewTaskContent"
 
-import { useState } from 'react'
+import { useState, FormEvent } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
-import { RectangleStackIcon, ViewfinderCircleIcon, PlusIcon } from '@heroicons/react/24/outline'
+import { RectangleStackIcon, ViewfinderCircleIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 import TaskType from "./types/Task"
 
@@ -39,6 +39,14 @@ export default function Home(){
   });
   const [editMode, setEditMode] = useState(false);
 
+  const [filter, setFilter] = useState("All");
+
+  function changeFilter(e: FormEvent){
+    
+    setFilter(e.target.value)
+
+  }
+
   function openAddTaskModal(){
     
     setEditMode(false)
@@ -64,13 +72,14 @@ export default function Home(){
             <select
               name="categorie"
               id="categorie"
-              className="text-blue-500 text-sm py-3 pr-2"
+              className="text-blue-500 text-sm py-3 pr-2 cursor-pointer"
+              onChange={changeFilter}
             >
                 
-              <option value="todos">Todos</option>
-              <option value="trabalho">Trabalho</option>
-              <option value="pessoal">Pessoal</option>
-              <option value="estudos">Estudos</option>
+              <option value="All">Todos</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Pessoal">Pessoal</option>
+              <option value="Estudos">Estudos</option>
 
             </select>
 
@@ -94,7 +103,7 @@ export default function Home(){
         {/* Tasks */}
         <section className="mt-4">
 
-            <Table setOpenTask={setOpenTask} setTaskId={setTaskId} refreshTalbe={refreshTalbe}/>
+            <Table setOpenTask={setOpenTask} setTaskId={setTaskId} refreshTalbe={refreshTalbe} filter={filter}/>
             
         </section>
         {/* Tasks */}
@@ -119,21 +128,31 @@ export default function Home(){
             >
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 
-                <div className="flex items-start">
+                <div className="flex justify-between">
+
+                  <div className="flex items-start">
                   
-                  <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
-                    <RectangleStackIcon aria-hidden="true" className="size-6 text-blue-600" />
+                    <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
+                      <RectangleStackIcon aria-hidden="true" className="size-6 text-blue-600" />
+                    </div>
+
+                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                      
+                      <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
+                        {editMode ? "Editar tarefa" : "Adicionar nova tarefa"}
+                      </DialogTitle> 
+
+                      <p className="mt-1 text-sm/6 text-gray-600">
+                        Preencha com os dados da tarefa
+                      </p>
+
+                    </div>
+
                   </div>
 
-                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    
-                    <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
-                      {editMode ? "Editar tarefa" : "Adicionar nova tarefa"}
-                    </DialogTitle> 
+                  <div className="flex items-start">
 
-                    <p className="mt-1 text-sm/6 text-gray-600">
-                      Preencha com os dados da tarefa
-                    </p>
+                    <XMarkIcon onClick={() => setOpen(false)} aria-hidden="true" className="size-5 cursor-pointer hover:text-gray-400" />
 
                   </div>
 
@@ -171,17 +190,28 @@ export default function Home(){
 
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 
-                <div className="flex items-start">
+
+                <div className="flex justify-between">
                   
-                  <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:size-10">
-                    <ViewfinderCircleIcon aria-hidden="true" className="size-6 text-greren-600" />
+                  <div className="flex items-start">
+                    
+                    <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:size-10">
+                      <ViewfinderCircleIcon aria-hidden="true" className="size-6 text-greren-600" />
+                    </div>
+
+                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                      
+                      <DialogTitle as="h3" className="text-base font-semibold text-gray-90 mt-2">
+                        Visualizar tarefa
+                      </DialogTitle> 
+
+                    </div>
+
                   </div>
 
-                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    
-                    <DialogTitle as="h3" className="text-base font-semibold text-gray-90 mt-2">
-                      Visualizar tarefa
-                    </DialogTitle> 
+                  <div className="flex items-start">
+
+                    <XMarkIcon onClick={() => setOpenTask(false)} aria-hidden="true" className="size-5 cursor-pointer hover:text-gray-400" />
 
                   </div>
 

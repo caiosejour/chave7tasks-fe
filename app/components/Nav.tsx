@@ -7,7 +7,7 @@ export default function Navbar(){
 
     return(
 
-        <header className="bg-wite py-1">
+        <header className="bg-wite py-1 pt-4">
 
             <div className="flex h-16 items-center justify-between mx-auto max-w-screen-xl px-6">
 
@@ -26,27 +26,7 @@ export default function Navbar(){
                 {/* Logo */}
 
                 {/* Nav */}
-                <div className="md:flex md:items-center md:gap-12">
-                
-                    <nav aria-label="Global" className="hidden md:block">
-                        
-                        <ul className="flex items-center gap-6 text-md">
-
-                            <li>
-                                <a className=" transition hover:text-gray-500/75" href="#"> Tarefas </a>
-                            </li>
-
-                            <li>
-                                <a className=" transition hover:text-gray-500/75" href="#"> Usuários </a>
-                            </li>
-
-                            <li>
-                                <a className=" transition hover:text-gray-500/75" href="#"> Configurações </a>
-                            </li>
-
-                        </ul>
-
-                    </nav>
+                <div className="hidden md:flex md:items-center md:gap-12">
 
                     {/* Imagem do usuário */}
                     <div className="hidden md:relative md:block">
