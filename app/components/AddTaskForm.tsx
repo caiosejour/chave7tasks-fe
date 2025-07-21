@@ -100,7 +100,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:4000',
+      url: 'https://chave7tasks-ev6vlwhnu-caiosejours-projects.vercel.app',
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -196,7 +196,7 @@ export default function AddTaskForm(props: AddTaskFormProps){
 
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:4000',
+      url: 'https://chave7tasks-ev6vlwhnu-caiosejours-projects.vercel.app/',
       headers: { 
         'Content-Type': 'application/json'
       },
