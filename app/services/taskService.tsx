@@ -28,7 +28,7 @@ export default async function returnTasks(){
 
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://chave7tasks-ev6vlwhnu-caiosejours-projects.vercel.app/',
+        url: process.env.BASE_URL,
         headers: { 
         'Content-Type': 'application/json'
         },

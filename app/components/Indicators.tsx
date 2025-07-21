@@ -47,7 +47,7 @@ export default function Indicators(props: IndicatorsProps){
 
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://chave7tasks-ev6vlwhnu-caiosejours-projects.vercel.app/',
+        url: "https://c7be.prospectordigital.com.br",
         headers: { 
           'Content-Type': 'application/json'
         },
