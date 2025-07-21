@@ -45,7 +45,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:4000',
+      url: 'https://chave7tasks-ev6vlwhnu-caiosejours-projects.vercel.app/',
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -88,7 +88,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:4000',
+      url: 'https://chave7tasks-ev6vlwhnu-caiosejours-projects.vercel.app/',
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -136,7 +136,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:4000',
+      url: 'https://chave7tasks-ev6vlwhnu-caiosejours-projects.vercel.app/',
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -230,7 +230,7 @@ export default function ViewTaskContent(props: ViewTaskContentProps){
 
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:4000',
+      url: 'https://chave7tasks-ev6vlwhnu-caiosejours-projects.vercel.app/',
       headers: { 
         'Content-Type': 'application/json'
       },
