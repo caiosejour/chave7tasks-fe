@@ -47,7 +47,7 @@ export default function Indicators(props: IndicatorsProps){
 
         method: 'post',
         maxBodyLength: Infinity,
-        url: "https://c7be.prospectordigital.com.br",
+        url: "http://localhost:3000",
         headers: { 
           'Content-Type': 'application/json'
         },
